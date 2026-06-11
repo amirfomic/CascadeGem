@@ -9,11 +9,11 @@ private:
     {
         switch(type)
         {
-            case 0: symbol = "⚡"; color = "\033[93m"; break;
-            case 1: symbol = "❄️"; color = "\033[96m"; break;
-            case 2: symbol = "🔥" ; color = "\033[31m"; break;
-            case 3: symbol = "🌙" ; color = "\033[37m"; break;
-            case 4: symbol = "🌟" ; color = "\033[33m"; break;
+            case 0: symbol = "♠"; color = "\033[93m"; break;
+            case 1: symbol = "■"; color = "\033[96m"; break;
+            case 2: symbol = "●" ; color = "\033[31m"; break;
+            case 3: symbol = "♥" ; color = "\033[37m"; break;
+            case 4: symbol = "♣" ; color = "\033[33m"; break;
             default: symbol = " " ; color = "\033[0m"; type = -1;
 
         }

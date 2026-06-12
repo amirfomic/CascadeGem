@@ -16,6 +16,7 @@ class Board
         }
         void display() const
         {
+            system("cls");
             cout << "========================================" << "\n";
             cout << "\n";
             cout << "    0   1   2   3   4   5   6   7" << "\n";
@@ -212,6 +213,23 @@ class Board
             }
             return score;
         }
+        int chain_forhint()
+        {
+            int score = 0;
+            int x = 10;
+            while(true)
+            {
+                auto allmatche = allmatches();
+                if(allmatche.empty()) break;
+                popmatch(allmatche);
+                gravity();
+                fill();
+                score += x*allmatche.size();
+                x *= 2;
+
+            }
+            return score;
+        }
         int swapandmatch(int x1,int y1,int x2, int y2)
         {
             if(x1 > 7 || x1 < 0 || x2 > 7 || x2 < 0 || y1 > 7 || y1 < 0 || y2 > 7 || y2 < 0) return -1;
@@ -250,6 +268,86 @@ class Board
                 }
             }
             return true;
+        }
+        int usebomb(int i,int j)
+        {
+            for(int row = i-1 ; row <= i+1 ; row++)
+            {
+                for(int col = j-1 ; col <= j+1 ; col++)
+                {
+                    if (row < 8 && row >= 0 && col < 8 && col >= 0)
+                    {
+                        if(!item[row][col].isempty()) item[row][col].settype(-1);
+
+                    }
+                }
+            }
+            return chain();
+        }
+        int userocket(string c, int x)
+        {
+            if(c == "row")
+            {
+                if(x >= 0 && x < 8)
+                {
+                    for(int j=0; j < 8; j++)
+                    {
+                        item[x][j].settype(-1);
+                    }
+                }
+            }
+            if(c == "col")
+            {
+                if(x >= 0 && x < 8)
+                {
+                    for(int i=0 ; i < 8; i++)
+                    {
+                        item[i][x].settype(-1);
+                    }
+                }
+            }
+            return chain();
+        }
+        vector<pair<int,int>> usehint()
+        {
+            int s = -1;
+            vector<pair<int,int>> res;
+            int current_score;
+            for(int i=0; i < 8; i++)
+            {
+                for(int j=0; j < 8; j++)
+                {
+                    int iplus = i + 1;
+                    int jplus = j + 1;
+                    if(iplus < 8)
+                    {
+                        swap(item[i][j],item[iplus][j]);
+                        current_score = chain_forhint();
+                        if (current_score > s)
+                        {
+                            s = current_score;
+                            res.clear();
+                            res.push_back({i,j});
+                            res.push_back({iplus,j});
+                        }
+                        swap(item[i][j],item[iplus][j]);
+                    }
+                    if(jplus < 8)
+                    {
+                        swap(item[i][j],item[i][jplus]);
+                        current_score = chain_forhint();
+                        if (current_score > s)
+                        {
+                            s = current_score;
+                            res.clear();
+                            res.push_back({i,j});
+                            res.push_back({i,jplus});
+                        }
+                        swap(item[i][j],item[i][jplus]);
+                    }
+                }
+            }
+            return res;
         }
 
 

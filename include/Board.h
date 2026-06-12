@@ -1,7 +1,8 @@
 #ifndef BOARD_H
 #define BOARD_H
 #include <vector>
-#include <utility>   
+#include <utility>
+#include <string>
 #include "Gem.h"
 class Board
 {
@@ -20,8 +21,11 @@ public:
     void gravity();
     void fill();
     int chain();
+    int chain_forhint();
     int swapandmatch(int x1, int y1, int x2, int y2);
     bool haslocked();
+    int usebomb(int i, int j);
+    int userocket(std::string c, int x);
+    std::vector<std::pair<int, int>> usehint();
 };
-
 #endif 
